@@ -53,7 +53,8 @@ internet_samotnosc <- inner_join(get_data(internet_pytanie, "internet_godz"),
   mutate(samotnosc = (samotnosc - 2)*-1) %>% 
   inner_join(get_data(internet_zawodowo, "internet_zawodowo")) %>% 
   mutate(internet_zawodowo = (internet_zawodowo - 2)* -1) %>% 
-  droplevels
+  droplevels %>% 
+  write.csv(file = "internet_samotnosc.csv", row.names = FALSE)
 
 # internet_godz: liczba godzin w internecie w ciagu ostatniego tygodnia
 # samotnosc: frakcja osob odczuwajacych samotnosc
