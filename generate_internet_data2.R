@@ -73,7 +73,7 @@ full_survs <- (3 == substr(colnames(partial_dat), 0, 1) %>%
   which %>% 
   names 
 
-dat <- lapply(full_survs, function(ith_surv) {
+lapply(full_survs, function(ith_surv) {
   cbind(plec = osoby[6], 
         waga = wagi[, grep(substr(ith_surv, 0, 1), letters) + 1],
         woj =  osoby[[74]],
