@@ -104,14 +104,3 @@ lapply(full_survs, function(ith_surv) {
   ungroup %>% 
   write.csv(file = "internet_samotnosc_aggregated.csv", row.names = FALSE)
   
-
-
-
-
-ggplot(dat, aes(x = plec, y = internet_h, fill = samotnosc)) +
-  geom_col(position = "dodge") +
-  facet_wrap( ~ internet_zawodowo, labeller = label_both) +
-  scale_x_discrete("Płeć") +
-  scale_y_continuous("Użycie internetu w ostatnim tygodniu [h]") +
-  scale_fill_discrete("Uczucie osamotnienia") +
-  theme_bw()
