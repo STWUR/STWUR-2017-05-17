@@ -104,3 +104,6 @@ lapply(full_survs, function(ith_surv) {
   ungroup %>% 
   write.csv(file = "internet_samotnosc_aggregated.csv", row.names = FALSE)
   
+# internet_zawodowo: czy internet jest wykorzystywany zawodowo.
+# samotnosc: poczucie samotnosci,
+# internet_h: liczba godzin internetu w ostatnim tygodniu
