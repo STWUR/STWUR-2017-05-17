@@ -2,16 +2,13 @@ library(dplyr)
 library(binom)
 library(ggplot2)
 
-dat <- binom.confint(1L:100, 100)
+dat <- binom.confint(0.02*25L:100, 25L:100)
 
-prob_cov <- do.call(rbind, lapply(1L:1000, function(dummy)
-  do.call(rbind, lapply(1L:100, function(ith_n_success)
-  data.frame(x = ith_n_success, real_mean = rbinom(1, 100, prob = ith_n_success/100)/100)
-)) %>% 
-  inner_join(dat))) %>% 
-  mutate(inside = real_mean > lower & real_mean < upper) %>% 
-  group_by(x, method) %>% 
-  summarise(cov = mean(inside))
+prob_cov <- rbind(binom.coverage(0.02, 25L:100, conf.level = 0.95, method = "asymptotic"),
+                  binom.coverage(0.02, 25L:100, conf.level = 0.95, method = "wilson"))
 
-ggplot(prob_cov, aes(x = x, y = cov, color = method)) +
-  geom_line()
+ggplot(prob_cov, aes(x = n, y = coverage, color = method)) +
+  geom_line() +
+  geom_hline(yintercept = 0.95) +
+  theme_bw() +
+  scale_y_continuous("Coverage probability")

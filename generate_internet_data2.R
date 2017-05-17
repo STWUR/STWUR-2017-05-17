@@ -6,9 +6,6 @@ library(dplyr)
 load("./Diagnoza_dane-master/osoby.RData")
 load("./Diagnoza_dane-master/osobyDict.RData")
 
-load("data/ksztalt_wojewodztw_data_frame.Rdata")
-wojewodztwa_nazwy_kody <- mutate(wojewodztwa_nazwy_kody,
-                                 woj = iconv(woj))
 
 wagi <- osoby[, 29L:36]
 colnames(wagi) <- paste0(letters[1L:8], "_", colnames(wagi))
@@ -100,7 +97,7 @@ lapply(full_survs, function(ith_surv) {
                                                      NIE = c("NIE", "NIE zaznaczone")))
 }) %>% do.call(rbind, .) %>% 
   group_by(plec, internet_zawodowo, samotnosc) %>% 
-  summarise(internet_h = sum(waga*internet_h)/sum(waga), n = length(waga)) %>% 
+  summarise(internet_h = sum(waga*internet_h)/sum(waga), n_resp = length(waga)) %>% 
   ungroup %>% 
   write.csv(file = "internet_samotnosc_aggregated.csv", row.names = FALSE)
   
