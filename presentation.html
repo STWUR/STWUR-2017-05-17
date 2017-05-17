@@ -97,7 +97,18 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Dane</h2></hgroup><article  id="dane">
+<slide class=''><hgroup><h2>Wstęp</h2></hgroup><article  id="wstep">
+
+<p>Materiały są dostępne w repozytorium: <a href='http://tinyurl.com/stwur4' title=''>http://tinyurl.com/stwur4</a></p>
+
+<p>Pobierz materiały z <strong>R</strong> poleceniem:</p>
+
+<pre class = 'prettyprint lang-r'>download.file(url = &quot;https://github.com/STWUR/STWUR-2017-05-17/archive/master.zip&quot;, 
+              destfile = &quot;tmp.zip&quot;)
+unzip(&quot;tmp.zip&quot;, exdir = getwd())
+file.remove(&quot;tmp.zip&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Dane</h2></hgroup><article  id="dane">
 
 <p>Dane z Diagnozy społecznej, 23 130 respondentów.</p>
 
@@ -268,43 +279,75 @@ wilcox.test(filter(full_dat, samotnosc == &quot;TAK&quot;)[[&quot;internet_h&quo
 ## W = 8897900, p-value = 5.457e-05
 ## alternative hypothesis: true location shift is greater than 0</pre>
 
+</article></slide><slide class=''><hgroup><h2>Liczba godzin w internecie a samotność</h2></hgroup><article  id="liczba-godzin-w-internecie-a-samotnosc-5">
+
+<p>Czy osoby samotne używające internetu w pracy, spędzają w internecie więcej czasu niż ich mniej samotni koledzy?</p>
+
+<pre class = 'prettyprint lang-r'>wilcox.test(filter(full_dat, samotnosc == &quot;TAK&quot;, 
+                   internet_zawodowo == &quot;TAK&quot;)[[&quot;internet_h&quot;]],
+            filter(full_dat, samotnosc != &quot;TAK&quot;, 
+                   internet_zawodowo == &quot;TAK&quot;)[[&quot;internet_h&quot;]],
+            alternative = &quot;greater&quot;)</pre>
+
+<pre >## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  filter(full_dat, samotnosc == &quot;TAK&quot;, internet_zawodowo == &quot;TAK&quot;)[[&quot;internet_h&quot;]] and filter(full_dat, samotnosc != &quot;TAK&quot;, internet_zawodowo == &quot;TAK&quot;)[[&quot;internet_h&quot;]]
+## W = 8897900, p-value = 5.457e-05
+## alternative hypothesis: true location shift is greater than 0</pre>
+
+<p>Czy naprawdę? Nie, na następnym spotkaniu wspólnie zrobimy to jeszcze raz - tym razem prawidłowo uwzględniając wagi!</p>
+
 </article></slide><slide class=''><hgroup><h2>Trzy triki na factory</h2></hgroup><article  id="trzy-triki-na-factory">
 
-<ol>
-<li>Zmiana kolejnosci poziomow</li>
-</ol>
+<p>Zmiana kolejnosci poziomów</p>
 
-<pre class = 'prettyprint lang-r'>fct_dat &lt;- data.frame(imie = c(&quot;Marek&quot;, &quot;Franek&quot;, &quot;Stefanek&quot;, &quot;Havranek&quot;),
+<pre class = 'prettyprint lang-r'>fct_dat &lt;- data.frame(imie = c(&quot;Janek&quot;, &quot;Franek&quot;, &quot;Stefanek&quot;, &quot;Havranek&quot;),
                       wzrost = c(188, 168, 210, 199))
 
 levels(fct_dat[[&quot;imie&quot;]])</pre>
 
-<pre >## [1] &quot;Franek&quot;   &quot;Havranek&quot; &quot;Marek&quot;    &quot;Stefanek&quot;</pre>
+<pre >## [1] &quot;Franek&quot;   &quot;Havranek&quot; &quot;Janek&quot;    &quot;Stefanek&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>fct_dat2 &lt;- mutate(fct_dat, 
-                   imie = factor(imie,  levels = imie[order(wzrost)]))
+                   imie = factor(imie, levels = imie[order(wzrost)]))
 levels(fct_dat2[[&quot;imie&quot;]])</pre>
 
-<pre >## [1] &quot;Franek&quot;   &quot;Marek&quot;    &quot;Havranek&quot; &quot;Stefanek&quot;</pre>
+<pre >## [1] &quot;Franek&quot;   &quot;Janek&quot;    &quot;Havranek&quot; &quot;Stefanek&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Trzy triki na factory</h2></hgroup><article  id="trzy-triki-na-factory-1">
 
-<ol>
-<li>Zmiana kolejnosci poziomow</li>
-</ol>
-
-<pre class = 'prettyprint lang-r'>fct_dat &lt;- data.frame(imie = c(&quot;Marek&quot;, &quot;Franek&quot;, &quot;Stefanek&quot;, &quot;Havranek&quot;),
-                      wzrost = c(188, 168, 210, 199))
-
-levels(fct_dat[[&quot;imie&quot;]])</pre>
-
-<pre >## [1] &quot;Franek&quot;   &quot;Havranek&quot; &quot;Marek&quot;    &quot;Stefanek&quot;</pre>
+<p>Zmiana nazw poziomów</p>
 
 <pre class = 'prettyprint lang-r'>fct_dat2 &lt;- mutate(fct_dat, 
-                   imie = factor(imie,  levels = imie[order(wzrost)]))
+                   imie = factor(imie, labels = toupper(levels(imie))))
 levels(fct_dat2[[&quot;imie&quot;]])</pre>
 
-<pre >## [1] &quot;Franek&quot;   &quot;Marek&quot;    &quot;Havranek&quot; &quot;Stefanek&quot;</pre></article></slide>
+<pre >## [1] &quot;FRANEK&quot;   &quot;HAVRANEK&quot; &quot;JANEK&quot;    &quot;STEFANEK&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Trzy triki na factory</h2></hgroup><article  id="trzy-triki-na-factory-2">
+
+<p>Łączenie poziomow</p>
+
+<pre class = 'prettyprint lang-r'>fct_dat2 &lt;- fct_dat
+levels(fct_dat2[[&quot;imie&quot;]]) &lt;- c(&quot;Franek&quot;, &quot;Janek&quot;, &quot;Janek&quot;, &quot;Stefanek&quot;)
+
+levels(fct_dat2[[&quot;imie&quot;]])</pre>
+
+<pre >## [1] &quot;Franek&quot;   &quot;Janek&quot;    &quot;Stefanek&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Dane (raz jeszcze)</h2></hgroup><article  id="dane-raz-jeszcze">
+
+<ul>
+<li>plec: płeć</li>
+<li>waga: ważność obserwacji, istotne przy wyciąganiu średnich</li>
+<li>woj: województwo</li>
+<li>region66: region NUTS3.</li>
+<li>internet_zawodowo: czy używa Pan/i internetu w pracy?</li>
+<li>samotnosc: Czy czuje się Pan/i samotny/a?</li>
+<li>internet_h: Ile godzin spędził/a Pan/i w internecie w ostatnim tygodniu?</li>
+<li>rok: rok sondażu.</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

@@ -11,6 +11,19 @@ library(binom)
 library(ggplot2)
 ```
 
+## Wstęp
+
+Materiały są dostępne w repozytorium: http://tinyurl.com/stwur4
+
+Pobierz materiały z **R** poleceniem:
+
+```{r, eval = FALSE}
+download.file(url = "https://github.com/STWUR/STWUR-2017-05-17/archive/master.zip", 
+              destfile = "tmp.zip")
+unzip("tmp.zip", exdir = getwd())
+file.remove("tmp.zip")
+```
+
 ## Dane
 
 Dane z Diagnozy społecznej, 23 130 respondentów.
@@ -195,6 +208,18 @@ wilcox.test(filter(full_dat, samotnosc == "TAK",
             alternative = "greater")
 ```
 
+## Liczba godzin w internecie a samotność
+
+Czy osoby samotne używające internetu w pracy, spędzają w internecie więcej czasu niż ich mniej samotni koledzy?
+
+```{r, echo = TRUE}
+wilcox.test(filter(full_dat, samotnosc == "TAK", 
+                   internet_zawodowo == "TAK")[["internet_h"]],
+            filter(full_dat, samotnosc != "TAK", 
+                   internet_zawodowo == "TAK")[["internet_h"]],
+            alternative = "greater")
+```
+
 
 ## Liczba godzin w internecie a samotność
 
@@ -208,6 +233,7 @@ wilcox.test(filter(full_dat, samotnosc == "TAK",
             alternative = "greater")
 ```
 
+Czy naprawdę? Nie, na następnym spotkaniu wspólnie zrobimy to jeszcze raz - tym razem prawidłowo uwzględniając wagi!
 
 ## Trzy triki na factory
 
@@ -244,3 +270,15 @@ levels(fct_dat2[["imie"]]) <- c("Franek", "Janek", "Janek", "Stefanek")
 
 levels(fct_dat2[["imie"]])
 ```
+
+
+## Dane (raz jeszcze)
+
+- plec: płeć
+- waga: ważność obserwacji, istotne przy wyciąganiu średnich
+- woj: województwo
+- region66: region NUTS3. 
+- internet_zawodowo: czy używa Pan/i internetu w pracy?
+- samotnosc: Czy czuje się Pan/i samotny/a?
+- internet_h: Ile godzin spędził/a Pan/i w internecie w ostatnim tygodniu?
+- rok: rok sondażu.
